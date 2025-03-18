@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mouse animation</title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+    #clear {
+      position: absolute;
+      top: 20px;
+      right: 10px;
+      padding: 5px;
+      font-size: large;
+      border-radius: 5px;
+      background-color: rgb(8, 6, 6);
+      color: white;
+    }
+  </style>
+  <body>
+    <div>
+      <button id="clear">clear</button>
+    </div>
+    <canvas id="canvas"></canvas>
+
+    <script src="script.js" type="module"></script>
+  </body>
+</html>
