@@ -62,7 +62,7 @@ function draw(e) {
   ctx.moveTo(lastX, lastY);
   ctx.lineTo(e.clientX, e.clientY);
   ctx.stroke();
-  drawingPath.push([lastX, lastY, e.clientX, e.clientY]);
+  drawingPath.push([lastX, lastY, e.clientX, e.clientY, penColor]);
   lastX = e.clientX;
   lastY = e.clientY;
   console.log(drawingPath);
@@ -70,15 +70,14 @@ function draw(e) {
 
 function drawEverything() {
   for (let i = 0; i < drawingPath.length; i++) {
-    //  if (drawingPath[i].type == "line") {
-    for (let j = 0; j < drawingPath[i].length; j++) {
-      console.log(drawingPath[i][j]);
-      ctx.strokeStyle = penColor;
+    for (let j = 0; j < drawingPath[i].length; j += 5) {
+      ctx.beginPath();
+      ctx.strokeStyle = drawingPath[i][j + 4];
       ctx.moveTo(drawingPath[i][j], drawingPath[i][j + 1]);
       ctx.lineTo(drawingPath[i][j + 2], drawingPath[i][j + 3]);
       ctx.stroke();
+      ctx.closePath();
     }
-    //  }
   }
 }
 
@@ -133,6 +132,7 @@ bgcolors.forEach((color, i) => {
 
   button.addEventListener("click", () => {
     penColor = color;
+    // drawEverything();
   });
   penButton.appendChild(button);
 });
