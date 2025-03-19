@@ -3,11 +3,6 @@ const ctx = canvas.getContext("2d");
 
 // Clear button
 const clearButton = document.getElementById("clear");
-clearButton.addEventListener("click", () => {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "black";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-});
 
 // Set initial canvas dimensions
 canvas.width = window.innerWidth;
@@ -20,6 +15,7 @@ let isDrawing = false;
 let lastX = 0;
 let lastY = 0;
 let penColor = "white";
+let drawingPath = [];
 
 // Resize canvas while keeping the drawing
 function resizeCanvas() {
@@ -66,10 +62,32 @@ function draw(e) {
   ctx.moveTo(lastX, lastY);
   ctx.lineTo(e.clientX, e.clientY);
   ctx.stroke();
-
+  drawingPath.push([lastX, lastY, e.clientX, e.clientY]);
   lastX = e.clientX;
   lastY = e.clientY;
+  console.log(drawingPath);
 }
+
+function drawEverything() {
+  for (let i = 0; i < drawingPath.length; i++) {
+    //  if (drawingPath[i].type == "line") {
+    for (let j = 0; j < drawingPath[i].length; j++) {
+      console.log(drawingPath[i][j]);
+      ctx.strokeStyle = penColor;
+      ctx.moveTo(drawingPath[i][j], drawingPath[i][j + 1]);
+      ctx.lineTo(drawingPath[i][j + 2], drawingPath[i][j + 3]);
+      ctx.stroke();
+    }
+    //  }
+  }
+}
+
+clearButton.addEventListener("click", () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  drawingPath = [];
+});
 
 // Event listeners
 canvas.addEventListener("mousedown", startDrawing);
@@ -97,6 +115,7 @@ bgcolors.forEach((color, i) => {
   button.addEventListener("click", () => {
     ctx.fillStyle = color;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    drawEverything();
   });
   colorButton.appendChild(button);
 });
