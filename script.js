@@ -42,16 +42,19 @@ function resizeCanvas() {
 
 // Handle drawing
 function startDrawing(e) {
+  // e.preventDefault();
   isDrawing = true;
   lastX = e.clientX;
   lastY = e.clientY;
 }
 
 function stopDrawing() {
+  // e.preventDefault();
   isDrawing = false;
 }
 
 function draw(e) {
+  // e.preventDefault();
   if (!isDrawing) return;
 
   ctx.strokeStyle = penColor;
@@ -93,9 +96,9 @@ canvas.addEventListener("mousedown", startDrawing);
 canvas.addEventListener("mouseup", stopDrawing);
 canvas.addEventListener("mousemove", draw);
 
-canvas.addEventListener("touchstart", startDrawing);
-canvas.addEventListener("touchmove", draw);
-canvas.addEventListener("touchend", stopDrawing);
+canvas.addEventListener("touchstart", startDrawing, { passive: false });
+canvas.addEventListener("touchmove", draw, { passive: false });
+canvas.addEventListener("touchend", stopDrawing, { passive: false });
 
 window.addEventListener("resize", resizeCanvas);
 
