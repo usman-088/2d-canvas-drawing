@@ -32,6 +32,8 @@ let lineWidth = 5;
 let bgCanvas = "black";
 let redoDrawingPath = [];
 let isReactangleDrawing = false;
+
+let keysPressed = {};
 // Resize canvas while keeping the drawing
 function resizeCanvas() {
   canvas.width = window.innerWidth;
@@ -160,6 +162,26 @@ clearButton.addEventListener("click", clearAll);
 rectangleButton.addEventListener("click", drawRectangle);
 
 window.addEventListener("resize", resizeCanvas);
+
+document.addEventListener("keydown", (event) => {
+  keysPressed[event.key] = true;
+
+  console.log(event.key, keysPressed);
+
+  if (keysPressed["Control"] && event.key == "z") {
+    // alert(event.key);
+    undo();
+  }
+  if (keysPressed["Control"] && event.key == "r") {
+    // alert(event.key);
+    redo();
+  }
+});
+
+document.addEventListener("keyup", (event) => {
+  console.log("keydown", event.key);
+  delete keysPressed[event.key];
+});
 
 // Color buttons
 const bgcolors = ["green", "black", "white", "yellow", "blue", "red"];
