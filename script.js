@@ -123,23 +123,23 @@ function redo() {
   drawEverything();
 }
 
-clearButton.addEventListener("click", () => {
+function clearAll() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   drawingPath = [];
   lineWidth = 5;
   slider.value = 5;
-});
+}
 
-rectangleButton.addEventListener("click", () => {
+function drawRectangle() {
   isReactangleDrawing = !isReactangleDrawing;
   if (isReactangleDrawing) {
     rectElement.style.stroke = "green";
   } else {
     rectElement.style.stroke = "white";
   }
-});
+}
 
 slider.addEventListener("input", () => {
   lineWidth = slider.value;
@@ -156,6 +156,8 @@ canvas.addEventListener("touchend", stopDrawing, { passive: false });
 
 undoButton.addEventListener("click", undo);
 redoButton.addEventListener("click", redo);
+clearButton.addEventListener("click", clearAll);
+rectangleButton.addEventListener("click", drawRectangle);
 
 window.addEventListener("resize", resizeCanvas);
 
