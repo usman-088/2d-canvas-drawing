@@ -7,6 +7,8 @@ const slider = document.getElementById("myRange");
 
 const undoButton = document.getElementById("undo");
 const redoButton = document.getElementById("redo");
+const rectangleButton = document.querySelector(".rectangleButton");
+const rectElement = rectangleButton.querySelector("rect");
 // Set initial canvas dimensions
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -29,6 +31,7 @@ let drawingPath = [];
 let lineWidth = 5;
 let bgCanvas = "black";
 let redoDrawingPath = [];
+let isReactangleDrawing = false;
 // Resize canvas while keeping the drawing
 function resizeCanvas() {
   canvas.width = window.innerWidth;
@@ -54,21 +57,34 @@ function stopDrawing() {
 
 function draw(e) {
   // e.preventDefault();
+
   if (!isDrawing) return;
+
   const pos = getMousePos(e);
-  ctx.strokeStyle = penColor;
-  ctx.lineWidth = lineWidth;
-  ctx.lineCap = "round";
+  if (isReactangleDrawing) {
+    ctx.strokeStyle = penColor;
+    ctx.lineWidth = lineWidth;
+    ctx.fillStyle = bgCanvas;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    ctx.rect(lastX, lastY, pos.x - lastX, pos.y - lastY);
+    ctx.stroke();
+    // drawingPath.push([lastX, lastY, pos.x, pos.y, penColor, lineWidth]);
+  } else {
+    ctx.strokeStyle = penColor;
+    ctx.lineWidth = lineWidth;
+    ctx.lineCap = "round";
+    ctx.beginPath();
 
-  ctx.beginPath();
-  ctx.moveTo(lastX, lastY);
-  ctx.lineTo(pos.x, pos.y);
-  ctx.stroke();
-  drawingPath.push([lastX, lastY, pos.x, pos.y, penColor, lineWidth]);
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+    drawingPath.push([lastX, lastY, pos.x, pos.y, penColor, lineWidth]);
 
-  lastX = pos.x;
-  lastY = pos.y;
-  // console.log(drawingPath);
+    lastX = pos.x;
+    lastY = pos.y;
+    // console.log(drawingPath);
+  }
 }
 
 function drawEverything() {
@@ -114,6 +130,15 @@ clearButton.addEventListener("click", () => {
   drawingPath = [];
   lineWidth = 5;
   slider.value = 5;
+});
+
+rectangleButton.addEventListener("click", () => {
+  isReactangleDrawing = !isReactangleDrawing;
+  if (isReactangleDrawing) {
+    rectElement.style.stroke = "green";
+  } else {
+    rectElement.style.stroke = "white";
+  }
 });
 
 slider.addEventListener("input", () => {
