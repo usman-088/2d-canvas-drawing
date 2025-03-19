@@ -19,6 +19,7 @@ ctx.fillRect(0, 0, canvas.width, canvas.height);
 let isDrawing = false;
 let lastX = 0;
 let lastY = 0;
+let penColor = "white";
 
 // Resize canvas while keeping the drawing
 function resizeCanvas() {
@@ -57,7 +58,7 @@ function stopDrawing() {
 function draw(e) {
   if (!isDrawing) return;
 
-  ctx.strokeStyle = "white";
+  ctx.strokeStyle = penColor;
   ctx.lineWidth = 5;
   ctx.lineCap = "round";
 
@@ -74,4 +75,45 @@ function draw(e) {
 canvas.addEventListener("mousedown", startDrawing);
 canvas.addEventListener("mouseup", stopDrawing);
 canvas.addEventListener("mousemove", draw);
+
+canvas.addEventListener("mousedown", startDrawing);
+canvas.addEventListener("mousemove", draw);
+canvas.addEventListener("mouseup", stopDrawing);
+
 window.addEventListener("resize", resizeCanvas);
+
+// Color buttons
+const bgcolors = ["green", "black", "white", "yellow", "blue", "red"];
+const colorButton = document.querySelector(".colorButton");
+bgcolors.forEach((color, i) => {
+  const button = document.createElement("button");
+  button.style.backgroundColor = color;
+  button.style.width = "50px";
+  button.style.height = "50px";
+  button.style.position = "absolute";
+  button.style.left = i * 50 + "px";
+  button.style.bottom = "0px";
+  button.style.margin = "10px";
+  button.addEventListener("click", () => {
+    ctx.fillStyle = color;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  });
+  colorButton.appendChild(button);
+});
+const penButton = document.querySelector(".penButton");
+penButton.style.display = "flex";
+penButton.style.flexDirection = "column";
+penButton.style.position = "absolute";
+penButton.style.right = "10px";
+penButton.style.top = "100px";
+bgcolors.forEach((color, i) => {
+  const button = document.createElement("button");
+  button.style.backgroundColor = color;
+  button.style.width = "20px";
+  button.style.height = "20px";
+
+  button.addEventListener("click", () => {
+    penColor = color;
+  });
+  penButton.appendChild(button);
+});
