@@ -22,6 +22,22 @@
       background-color: rgb(8, 6, 6);
       color: white;
     }
+    .slidecontainer {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+    .value-display {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 10px;
+      color: white;
+    }
+    .undo-redo-buttons {
+      position: absolute;
+      top: 40px;
+      left: 10px;
+    }
   </style>
   <body>
     <div>
@@ -29,6 +45,22 @@
     </div>
     <div class="colorButton"></div>
     <div class="penButton"></div>
+
+    <div class="slidecontainer">
+      <input
+        type="range"
+        min="1"
+        max="100"
+        value="5"
+        class="slider"
+        id="myRange"
+      />
+      <!-- <p class="value-display">Value: <span id="sliderValue">5</span></p> -->
+    </div>
+    <div class="undo-redo-buttons">
+      <button id="undo" style="font-size: 12px">Undo</button>
+      <button id="redo" style="font-size: 12px">Redo</button>
+    </div>
     <canvas id="canvas"></canvas>
 
     <script src="script.js" type="module"></script>
